@@ -1,0 +1,25 @@
+[
+  {
+    "date": "2024-01",
+    "title": "Software Engineer 2 - Backend",
+    "company": "Uber, India",
+    "description": "Wanted to experience engineering at scale. Part of risk team, working on Uber's risk assessing services with a throughput of 300K requests per second.",
+    "tech": ["Java", "SQL", "Redis", "Python"],
+    "isTagVisible": true
+  },
+  {
+    "date": "2022-06",
+    "title": "Software Engineer - Backend",
+    "company": "JP Morgan Chase, Scotland",
+    "description": "Part of treasury team, involved in 0-1 journey of building an app which lets bankers understand their profitability. In a nutshell, we source data from various sources across teams, run calculations against various risk models to calculate profitability. \n \n As a side project built an anamoly detection system to detect overpriced/underpriced loans to UHNIs. Built an MVP, gained traction, presented it to my manager, their manager, their manager... all the way to CIO of JPMC. \n \n Got to experience working abroad, an experience I would 10/10 recommend, you learn a lot about yourself and the world by moving out of your comfort zone.",
+    "tech": ["Spring Boot", "Java", "SQL", "AWS"],
+    "isTagVisible": true
+  },
+  {
+    "date": "2020-03",
+    "title": "Senior Product Analyst",
+    "company": "Sprinklr, Remote",
+    "description": "At Sprinklr, I acted as a mini PM for the publishing product. Launched smart scheduling, tiered approvals, and worked with Meta for beta Reels publishing access. \n \nMy favorite project was completely revamping our Link in Bio offering - felt like running my own startup with full autonomy. Got promoted and moved to revenue-focused work: minimizing churn, new product development, and supporting big sales. Super fast-paced environment with incredible variety. \n \n Check my LinkedIn for the full details.",
+    "isTagVisible": true
+  }
+]

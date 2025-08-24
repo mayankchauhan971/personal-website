@@ -1,16 +1,238 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 
+// Get local featured articles
+const allArticles = await getCollection('articles');
+const localFeaturedArticles = allArticles
+  .filter(article => article.data.featured)
+  .sort((a, b) => {
+    if (!a.data.date && !b.data.date) return 0;
+    if (!a.data.date) return 1; // a goes to bottom
+    if (!b.data.date) return -1; // b goes to bottom
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  })
+  .slice(0, 2);
+
+// Get RSS articles for featured section (will be fetched client-side)
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Mayank Chauhan - Software Engineer">
+  <div class="max-w-6xl mx-auto px-6 py-16">
+    <!-- Terminal-style Header Section -->
+    <section class="mb-16">
+      <!-- Comment line -->
+      <div class="text-green-600 dark:text-green-400 text-lg mb-4 font-mono">
+        // hi my name is
+      </div>
+      
+      <!-- Main name display -->
+              <div class="mb-8">
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4 font-mono">
+            <span class="text-yellow-600 dark:text-yellow-400">&lt;</span>Mayank | मयंक<span class="text-yellow-600 dark:text-yellow-400">/&gt;</span>
+          </h1>
+        </div>
+      
+      <!-- Pronunciation button -->
+      <div class="mb-8">
+        <button 
+          id="pronounce-name"
+          class="inline-flex items-center text-gray-600 dark:text-gray-300 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors text-lg"
+          aria-label="Pronounce my name"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 9v6m-3-3h6"></path>
+          </svg>
+          pronunciation
+        </button>
+      </div>
+      
+      <!-- Description -->
+      <div class="max-w-3xl mb-8">
+              <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed font-mono">
+        I'm a <span class="text-gray-900 dark:text-white font-semibold">backend engineer</span> at  
+        <span class="text-green-600 dark:text-green-400 font-bold">Uber</span>. 
+        One of the few software engineers who have transitioned from a product management role to a software engineering role. 
+        <br />
+        <br />
+        I love building things—having launched 4 entrepreneurial ventures with 1 successful exit, 1 cohort based course, and 2 valuable learning experiences.
+      </p>
+      </div>
+      
+      <!-- Social Links -->
+      <div class="flex space-x-8 text-lg">
+        <a 
+          href="https://www.linkedin.com/in/mayankchauhan971/" 
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-gray-600 dark:text-gray-300 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors underline decoration-dotted underline-offset-4"
+        >
+          LinkedIn
+        </a>
+        <a 
+          href="mailto:mayankchauhan971@gmail.com"
+          class="text-gray-600 dark:text-gray-300 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors underline decoration-dotted underline-offset-4"
+        >
+          Email
+        </a>
+      </div>
+    </section>
+
+    <!-- Featured Writing Section -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-12 font-mono">My Writings</h2>
+      
+      <div class="grid md:grid-cols-2 gap-8" id="featured-articles">
+        {localFeaturedArticles.map(article => (
+          <article class="border border-yellow-600/50 dark:border-yellow-400 rounded-lg p-6 hover:bg-white dark:hover:bg-slate-800/70 transition-all duration-300 bg-white/60 dark:bg-slate-800/40 shadow-sm hover:shadow-md">
+            <!-- Category and date -->
+            <div class="flex items-center gap-4 mb-4">
+              <span class={`px-3 py-1 text-sm font-medium rounded ${
+                article.data.category === 'tech' ? 'bg-blue-500/20 text-blue-300' :
+                article.data.category === 'product' ? 'bg-green-500/20 text-green-300' :
+                article.data.category === 'curiosity' ? 'bg-orange-500/20 text-orange-300' :
+                'bg-purple-500/20 text-purple-300'
+              }`}>
+                {article.data.category.charAt(0).toUpperCase() + article.data.category.slice(1)}
+              </span>
+              {article.data.date && (
+                <time class="text-gray-500 dark:text-gray-400 text-sm">
+                  {new Date(article.data.date).toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                  })}
+                </time>
+              )}
+            </div>
+            
+            <!-- Article title -->
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4 leading-tight">
+              <a 
+                href={`/articles/${article.slug}`} 
+                class="hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors"
+              >
+                {article.data.title}
+              </a>
+            </h3>
+            
+            <!-- Article summary -->
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+              {article.data.summary}
+            </p>
+          </article>
+        ))}
+      </div>
+      
+      <!-- View all articles link -->
+      <div class="mt-12">
+        <a 
+          href="/articles"
+          class="inline-flex items-center text-lg text-gray-600 dark:text-gray-300 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors font-mono underline decoration-dotted underline-offset-4"
+        >
+          View all articles
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+          </svg>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <!-- Audio element for name pronunciation (hidden) -->
+  <audio id="name-audio" preload="none">
+    <source src="/audio/name-pronunciation.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Name pronunciation functionality
+    const pronounceBtn = document.getElementById('pronounce-name');
+    const nameAudio = document.getElementById('name-audio');
+    
+    pronounceBtn?.addEventListener('click', () => {
+      const audioElement = document.getElementById('name-audio');
+      if (audioElement && audioElement instanceof HTMLAudioElement) {
+        audioElement.currentTime = 0;
+        audioElement.play().catch(error => {
+          console.log('Audio playback failed:', error);
+          // Fallback: could use Web Speech API or show a message
+          alert('Audio pronunciation not available at the moment.');
+        });
+      }
+    });
+
+    // RSS integration for featured articles
+    async function loadFeaturedRSSArticles() {
+      try {
+        const response = await fetch('/api/rss.json');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        if (!data.success || !data.articles.length) {
+          return;
+        }
+
+        // Get the first 2 RSS articles to add to featured section
+        const rssFeaturedArticles = data.articles.slice(0, 2);
+        const featuredContainer = document.getElementById('featured-articles');
+        
+        if (!featuredContainer) return;
+
+        // Add RSS articles to the featured section
+        rssFeaturedArticles.forEach(article => {
+          const articleElement = createFeaturedArticleElement(article);
+          featuredContainer.appendChild(articleElement);
+        });
+
+      } catch (error) {
+        console.error('Error loading featured RSS articles:', error);
+      }
+    }
+
+    // Create featured article element for RSS articles
+    function createFeaturedArticleElement(article) {
+      const articleDiv = document.createElement('article');
+      articleDiv.className = 'border border-yellow-600/50 dark:border-yellow-400 rounded-lg p-6 hover:bg-white dark:hover:bg-slate-800/70 transition-all duration-300 bg-white/60 dark:bg-slate-800/40 shadow-sm hover:shadow-md';
+      
+      const dateStr = article.date ? new Date(article.date).toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+      }) : '';
+
+      const categoryClass = article.category === 'tech' ? 'bg-blue-500/20 text-blue-300' :
+                           article.category === 'product' ? 'bg-green-500/20 text-green-300' :
+                           article.category === 'curiosity' ? 'bg-orange-500/20 text-orange-300' :
+                           'bg-purple-500/20 text-purple-300';
+
+      articleDiv.innerHTML = `
+        <div class="flex items-center gap-4 mb-4">
+          <span class="px-3 py-1 text-sm font-medium rounded ${categoryClass}">
+            ${article.category.charAt(0).toUpperCase() + article.category.slice(1)}
+          </span>
+          ${dateStr ? `<time class="text-gray-500 dark:text-gray-400 text-sm">${dateStr}</time>` : ''}
+        </div>
+        
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4 leading-tight">
+          <a href="${article.url}" target="_blank" rel="noopener noreferrer" class="hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors">
+            ${article.title}
+          </a>
+        </h3>
+        
+        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+          ${article.summary}
+        </p>
+      `;
+
+      return articleDiv;
+    }
+
+    // Load RSS articles when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      loadFeaturedRSSArticles();
+    });
+  </script>
+</BaseLayout>

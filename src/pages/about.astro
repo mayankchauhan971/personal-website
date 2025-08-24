@@ -1,0 +1,235 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import timelineData from '../content/timeline.json';
+import personalTimelineData from '../content/personal-timeline.json';
+
+// Combine and sort timeline data
+const allTimelineItems = [
+  ...timelineData.map(item => ({ ...item, type: 'professional' as const })),
+  ...personalTimelineData.map(item => ({ ...item, type: 'personal' as const }))
+].sort((a, b) => {
+  // Handle both "YYYY-MM" and "YYYY" formats
+  const dateA = a.date.includes('-') ? a.date : `${a.date}-01`;
+  const dateB = b.date.includes('-') ? b.date : `${b.date}-01`;
+  return new Date(dateB).getTime() - new Date(dateA).getTime();
+}) as any[];
+
+// Group items by year
+const groupedByYear = allTimelineItems.reduce((acc, item) => {
+  // Extract year from date (handle both "YYYY-MM" and "YYYY" formats)
+  const year = item.date.includes('-') ? item.date.split('-')[0] : item.date;
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(item);
+  return acc;
+}, {} as Record<string, any[]>);
+
+// Convert to sorted array of [year, items] pairs
+const yearGroups = Object.entries(groupedByYear).sort((a, b) => parseInt(b[0]) - parseInt(a[0])) as [string, any[]][];
+---
+
+<BaseLayout title="About - My Journey" description="Learn about my professional journey and personal projects">
+  <div class="max-w-6xl mx-auto px-6 py-16">
+    <!-- Header Section -->
+    <section class="mb-16">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 font-mono">About Me</h1>
+      <p class="text-lg text-gray-600 dark:text-gray-300 max-w-4xl leading-relaxed font-mono">
+        Armed with a Bachelor's degree in Electronics and Communication Engineering from NSIT, India, I'm self-taught in coding, learned problem solving from Leetcode (1969 rating, 800+ problems solved) and development by building things for fun.
+        <br/> <br/> When I'm not coding, you'll find me working on one of the dozen ideas/problem statements of little apps/scripts/startups/world changing ideas or whatever that piques my interest. Always down for brainstorming on things.
+        <br/> <br/> I enjoy being outdoors, these days it's limited to running. Back in Glasgow, I had hiked most of the scottish mountains in 50KM radius from Glasgow and now I plan to hike the Himalayas. Hopefully it will be EBC soon.
+        If I could help you in any way, please do reach out to me, I may have been in your shoes and know how it feels :)
+      </p>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="mb-16">
+      <!-- Desktop: Two-column layout -->
+      <div class="hidden md:block">
+        <div class="relative">
+          <!-- Central timeline line -->
+          <div class="absolute left-1/2 transform -translate-x-px h-full w-0.5 bg-gray-300 dark:bg-slate-600"></div>
+          
+          <div class="space-y-16">
+            {yearGroups.map(([year, items]) => (
+              <div class="year-group">
+                <!-- Year header -->
+                <div class="relative mb-8">
+                  <div class="absolute left-1/2 transform -translate-x-1/2 z-20">
+                    <div class="bg-white dark:bg-slate-900 px-4 py-2 border-2 border-gray-300 dark:border-slate-600 rounded-full">
+                      <span class="text-lg font-bold text-gray-900 dark:text-white">{year}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Items for this year -->
+                <div class="space-y-12 pt-8">
+                  {items.map((item, index) => (
+                    <div class="relative">
+                      <!-- Timeline dot -->
+                      <div class="absolute left-1/2 transform -translate-x-1/2 z-10 top-6">
+                        <div class={`w-4 h-4 rounded-full border-4 border-white dark:border-slate-900 ${
+                          item.type === 'professional' ? 'bg-blue-400' : 'bg-green-400'
+                        }`}></div>
+                      </div>
+                      
+                      <!-- Content grid -->
+                      <div class="grid grid-cols-2 gap-8">
+                        {item.type === 'professional' ? (
+                          <!-- Left side content (Professional) -->
+                          <>
+                            <div class="flex justify-end">
+                              <div class="w-full bg-white/60 dark:bg-slate-800/60 border border-gray-300 dark:border-slate-600 rounded-lg p-6 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors text-right">
+                                {item.isTagVisible !== false && (
+                                  <div class="flex items-center justify-end mb-3">
+                                    <span class="text-xs uppercase tracking-wide mr-3 text-blue-200">
+                                      {item.type}
+                                    </span>
+                                    <div class="w-3 h-3 rounded-full bg-blue-400"></div>
+                                  </div>
+                                )}
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h3>
+                                {item.company && <p class="text-blue-600 dark:text-blue-400 font-bold text-lg mb-2">{item.company}</p>}
+                                <p class="text-gray-500 dark:text-gray-400 mb-3 leading-relaxed whitespace-pre-line">{item.description}</p>
+                                {item.tech && (item.isTagVisible !== false) && (
+                                  <div class="flex flex-wrap gap-2 justify-end">
+                                    {item.tech.map(tech => (
+                                      <span class="px-2 py-1 text-xs bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded">{tech}</span>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            <div></div>
+                          </>
+                        ) : (
+                          <!-- Right side content (Personal) -->
+                          <>
+                            <div></div>
+                            <div class="flex justify-start">
+                              <div class="w-full bg-white/60 dark:bg-slate-800/60 border border-gray-300 dark:border-slate-600 rounded-lg p-6 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
+                                {item.isTagVisible !== false && (
+                                  <div class="flex items-center mb-3">
+                                    <div class="w-3 h-3 rounded-full mr-3 bg-green-400"></div>
+                                    <span class="text-xs uppercase tracking-wide text-green-200">
+                                      {item.type}
+                                    </span>
+                                  </div>
+                                )}
+                                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h3>
+                        {item.company && <p class="text-gray-600 dark:text-gray-300 font-medium mb-2">{item.company}</p>}
+                        <p class="text-gray-500 dark:text-gray-400 mb-3 leading-relaxed whitespace-pre-line">{item.description}</p>
+                                {item.tech && (item.isTagVisible !== false) && (
+                                  <div class="flex flex-wrap gap-2">
+                                    {item.tech.map(tech => (
+                                      <span class="px-2 py-1 text-xs bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded">{tech}</span>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile: Single column -->
+      <div class="md:hidden">
+        <div class="relative">
+          <!-- Timeline line -->
+          <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-slate-600"></div>
+          
+          <div class="space-y-12">
+            {yearGroups.map(([year, items]) => (
+              <div class="year-group-mobile">
+                <!-- Year header -->
+                <div class="mb-8">
+                  <div class="bg-white dark:bg-slate-900 px-4 py-2 border-2 border-gray-300 dark:border-slate-600 rounded-full inline-block ml-16">
+                    <span class="text-lg font-bold text-gray-900 dark:text-white">{year}</span>
+                  </div>
+                </div>
+                
+                <!-- Items for this year -->
+                <div class="space-y-8">
+                  {items.map(item => (
+                    <div class="timeline-item flex items-start">
+                      <!-- Timeline dot -->
+                      <div class={`w-4 h-4 rounded-full border-4 border-white dark:border-slate-900 z-10 mt-2 mr-6 flex-shrink-0 ${
+                        item.type === 'professional' ? 'bg-blue-400' : 'bg-green-400'
+                      }`}></div>
+                      
+                      <!-- Content -->
+                      <div class="flex-1 bg-white/60 dark:bg-slate-800/60 border border-gray-300 dark:border-slate-600 rounded-lg p-6">
+                        {item.isTagVisible !== false && (
+                          <div class="flex items-center mb-3">
+                            <div class={`w-3 h-3 rounded-full mr-3 ${
+                              item.type === 'professional' ? 'bg-blue-400' : 'bg-green-400'
+                            }`}></div>
+                            <span class={`text-sm font-semibold uppercase tracking-wide ${
+                              item.type === 'professional' ? 'text-blue-400' : 'text-green-400'
+                            }`}>
+                              {item.type}
+                            </span>
+                          </div>
+                        )}
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h3>
+                        {item.company && <p class="text-gray-600 dark:text-gray-300 font-medium mb-2">{item.company}</p>}
+                        <p class="text-gray-500 dark:text-gray-400 mb-3 leading-relaxed whitespace-pre-line">{item.description}</p>
+                        {item.tech && (item.isTagVisible !== false) && (
+                          <div class="flex flex-wrap gap-2">
+                            {item.tech.map(tech => (
+                              <span class="px-2 py-1 text-xs bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded">{tech}</span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  /* Ensure timeline cards can expand to show full content */
+  .timeline-item {
+    min-height: 0;
+    overflow: visible;
+  }
+  
+  /* Ensure description text is fully visible */
+  .timeline-item p {
+    overflow: visible;
+    text-overflow: unset;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+  
+  /* Ensure cards don't have height constraints */
+  .timeline-item > div {
+    min-height: 0;
+    overflow: visible;
+  }
+  
+  /* Year group spacing */
+  .year-group + .year-group {
+    margin-top: 4rem;
+  }
+  
+  .year-group-mobile + .year-group-mobile {
+    margin-top: 3rem;
+  }
+</style>

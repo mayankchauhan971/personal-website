@@ -1,0 +1,26 @@
+[
+  {
+    "date": "2020",
+    "title": "ProxyPrep",
+    "description": "I did a lot of Leetcode and data structures in college. I was fortunate enough to combine it with my love for teaching and launched a co-hort based course for getting jobs focussed on engineering students. Responsible for signing up students and teaching DSA to 22 students in cohort. Did this during my final year, time well spent.",
+    "isTagVisible": true
+  },
+  {
+    "date": "2023",
+    "title": "RevuLink",
+    "description": "Launched a small tool for SMBs to collect, manage, analyze and showcase reviews which they receive across platforms at a central place. Launched MVP, onboarded 20-30 users with few in waitlist. \n \n Eventually dropped the idea since it was not a pressing problems and not something existing users would be willing to pay for.",
+    "isTagVisible": true
+  },
+  {
+    "date": "2024",
+    "title": "Closett",
+    "description": "Built a personal styling platform to make fashion consultations accessible to everyone. Initially launched as a B2C solution where users could book sessions with professional stylists on an hourly basis. Later evolved into a B2B2C model, partnering with banquet halls and makeup artists to reach customers preparing for special events. \n \n On the tech side, we hired stylists to create thousands of data points on Indian body types—what works for different heights, weights, and complexions. We fine-tuned a GPT model with this data and launched it as a Shopify app with brands for AI-powered styling recommendations. \n \n Eventually shut down because we were spread too thin across multiple approaches and ran out of resources.",
+    "isTagVisible": true
+  },
+  {
+    "date": "2021",
+    "title": "Pelrio",
+    "description": "Co-founded a restaurant expense management software focussing on Italian restaurants. Was involved in the initial brain storming and building an MVP which let's you scan your invoices for automated entry of account payables and integration with major POS (NCR) and manual entry for account receivables. Worked on it for a year, finally soly my ownership and took an exit. Pelrio was running up till 2024.",
+    "isTagVisible": true
+  }
+]
