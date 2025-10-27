@@ -4,7 +4,8 @@ const { title, description = "Personal website showcasing my journey and writing
 // Get current page for navigation active state
 const pathname = Astro.url.pathname;
 const currentPage = pathname === '/' ? 'home' : 
-                   pathname.startsWith('/about') ? 'about' : 
+                   pathname.startsWith('/journey') ? 'journey' : 
+                   pathname.startsWith('/now') ? 'now' : 
                    pathname.startsWith('/articles') ? 'articles' : 'home';
 ---
 
@@ -34,12 +35,20 @@ const currentPage = pathname === '/' ? 'home' :
               Home
             </a>
             <a 
-              href="/about" 
+              href="/journey" 
               class={`nav-link text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition-colors relative pb-1 ${
-                currentPage === 'about' ? 'active text-gray-900 dark:text-gray-100' : 'text-gray-600 dark:text-gray-400'
+                currentPage === 'journey' ? 'active text-gray-900 dark:text-gray-100' : 'text-gray-600 dark:text-gray-400'
               }`}
             >
-              About
+              Journey
+            </a>
+            <a 
+              href="/now" 
+              class={`nav-link text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition-colors relative pb-1 ${
+                currentPage === 'now' ? 'active text-gray-900 dark:text-gray-100' : 'text-gray-600 dark:text-gray-400'
+              }`}
+            >
+              Now
             </a>
             <a 
               href="/articles" 

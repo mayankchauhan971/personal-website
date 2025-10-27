@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Now" description="What I'm up to right now">
+  <div class="max-w-6xl mx-auto px-6 py-16">
+    <!-- Header Section -->
+    <section class="mb-16">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 font-mono">What I'm Up To Now</h1>
+      <div class="max-w-4xl">
+        <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-mono mb-8">
+          This page is inspired by Derek Sivers' <a href="https://nownownow.com/about" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline">/now movement</a> - 
+          a place to share what I'm focused on at this point in my life.
+        </p>
+        
+        <!-- Coming Soon Section -->
+        <div class="bg-gray-100 dark:bg-slate-800 rounded-lg p-8 text-center">
+          <div class="text-6xl mb-4">🚧</div>
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 font-mono">Coming Soon</h2>
+          <p class="text-gray-600 dark:text-gray-300 font-mono">
+            I'm currently working on updating this page with what I'm focused on right now. 
+            Check back soon for updates on my current projects, learning, and life adventures!
+          </p>
+        </div>
+        
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-8 font-mono italic">
+          Last updated: Coming soon...
+        </p>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
