@@ -4,8 +4,12 @@
   "framework": "astro",
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/$1"
+      "source": "/notes2content",
+      "destination": "https://notes2content.up.railway.app"
+    },
+    {
+      "source": "/notes2content/:path*",
+      "destination": "https://notes2content.up.railway.app/:path*"
     }
   ]
 }
