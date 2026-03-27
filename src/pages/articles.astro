@@ -7,7 +7,7 @@ const localArticles = await getCollection('articles');
 
 // Group local articles by category
 const localArticlesByCategory = {
-  tech: localArticles.filter(article => article.data.category === 'tech'),
+  engineering: localArticles.filter(article => article.data.category === 'engineering'),
   product: localArticles.filter(article => article.data.category === 'product'),
   personalGrowth: localArticles.filter(article => article.data.category === 'personalGrowth'),
   curiosity: localArticles.filter(article => article.data.category === 'curiosity')
@@ -16,20 +16,20 @@ const localArticlesByCategory = {
 // Calculate total counts (will be updated client-side)
 const initialCounts = {
   all: localArticles.length,
-  tech: localArticlesByCategory.tech.length,
+  engineering: localArticlesByCategory.engineering.length,
   product: localArticlesByCategory.product.length,
   personalGrowth: localArticlesByCategory.personalGrowth.length,
   curiosity: localArticlesByCategory.curiosity.length
 };
 ---
 
-<BaseLayout title="Articles - Thoughts on Product, Tech, and Personal Growth" description="Explore my writings on product development, technology, and personal growth">
+<BaseLayout title="Articles - Thoughts on Product, Engineering, and Personal Growth" description="Explore my writings on product development, engineering, and personal growth">
   <div class="max-w-3xl mx-auto px-6 py-16">
     <!-- Header Section -->
     <section class="mb-16">
       <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Articles</h1>
       <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
-        Thoughts on product, technology, and personal growth.
+        Thoughts on product, engineering, and personal growth.
       </p>
     </section>
 
@@ -50,9 +50,9 @@ const initialCounts = {
         </button>
         <button 
           class="article-filter px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-          data-category="tech"
+          data-category="engineering"
         >
-          Tech
+          Engineering
         </button>
         <button 
           class="article-filter px-4 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
@@ -99,7 +99,7 @@ const initialCounts = {
                 
                 <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                   <span class={`capitalize ${
-                    article.data.category === 'tech' ? 'text-blue-500' :
+                    article.data.category === 'engineering' ? 'text-blue-500' :
                     article.data.category === 'product' ? 'text-green-500' :
                     article.data.category === 'curiosity' ? 'text-orange-500' :
                     'text-purple-500'
@@ -186,7 +186,7 @@ const initialCounts = {
               
               <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                 <span class="capitalize ${
-                  article.category === 'tech' ? 'text-blue-500' :
+                  article.category === 'engineering' ? 'text-blue-500' :
                   article.category === 'product' ? 'text-green-500' :
                   article.category === 'curiosity' ? 'text-orange-500' :
                   'text-purple-500'

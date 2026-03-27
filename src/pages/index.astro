@@ -89,7 +89,7 @@ const localFeaturedArticles = allArticles
             <!-- Category and date -->
             <div class="flex items-center gap-4 mb-4">
               <span class={`px-3 py-1 text-sm font-medium rounded ${
-                article.data.category === 'tech' ? 'bg-blue-500/20 text-blue-300' :
+                article.data.category === 'engineering' ? 'bg-blue-500/20 text-blue-300' :
                 article.data.category === 'product' ? 'bg-green-500/20 text-green-300' :
                 article.data.category === 'curiosity' ? 'bg-orange-500/20 text-orange-300' :
                 'bg-purple-500/20 text-purple-300'
@@ -204,7 +204,7 @@ const localFeaturedArticles = allArticles
         year: 'numeric'
       }) : '';
 
-      const categoryClass = article.category === 'tech' ? 'bg-blue-500/20 text-blue-300' :
+      const categoryClass = article.category === 'engineering' ? 'bg-blue-500/20 text-blue-300' :
                            article.category === 'product' ? 'bg-green-500/20 text-green-300' :
                            article.category === 'curiosity' ? 'bg-orange-500/20 text-orange-300' :
                            'bg-purple-500/20 text-purple-300';

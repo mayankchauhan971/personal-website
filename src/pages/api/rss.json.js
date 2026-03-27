@@ -1,8 +1,8 @@
 
 const RSS_CONFIG = {
-  tech: {
+  engineering: {
     url: 'https://firstprinciplesdesign.substack.com/feed',
-    category: 'tech'
+    category: 'engineering'
   },
   product: {
     url: 'https://whythatworked.substack.com/feed',
