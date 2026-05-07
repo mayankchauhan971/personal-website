@@ -4,13 +4,14 @@ const { title, description = "Personal website showcasing my journey and writing
 // Get current page for navigation active state
 const pathname = Astro.url.pathname;
 const currentPage = pathname === '/' ? 'home' : 
-                   pathname.startsWith('/journey') ? 'journey' : 
-                   pathname.startsWith('/now') ? 'now' : 
+                   pathname.startsWith('/path') ? 'path' : 
+                   pathname.startsWith('/consistency') ? 'consistency' : 
+                   pathname.startsWith('/weekly-notes') ? 'weekly-notes' : 
                    pathname.startsWith('/articles') ? 'articles' : 'home';
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" data-theme="dark">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -20,6 +21,25 @@ const currentPage = pathname === '/' ? 'home' :
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <title>{title}</title>
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'dark'; // default
+      })();
+      
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    </script>
   </head>
   <body class="bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-gray-100 font-mono transition-colors duration-200">
     <nav class="border-b border-gray-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm transition-colors duration-200">
@@ -35,20 +55,28 @@ const currentPage = pathname === '/' ? 'home' :
               Home
             </a>
             <a 
-              href="/journey" 
+              href="/path" 
               class={`nav-link text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition-colors relative pb-1 ${
-                currentPage === 'journey' ? 'active text-gray-900 dark:text-gray-100' : 'text-gray-600 dark:text-gray-400'
+                currentPage === 'path' ? 'active text-gray-900 dark:text-gray-100' : 'text-gray-600 dark:text-gray-400'
               }`}
             >
-              Journey
+              Path
             </a>
             <a 
-              href="/now" 
+              href="/consistency" 
               class={`nav-link text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition-colors relative pb-1 ${
-                currentPage === 'now' ? 'active text-gray-900 dark:text-gray-100' : 'text-gray-600 dark:text-gray-400'
+                currentPage === 'consistency' ? 'active text-gray-900 dark:text-gray-100' : 'text-gray-600 dark:text-gray-400'
               }`}
             >
-              Now
+              Consistency
+            </a>
+            <a 
+              href="/weekly-notes" 
+              class={`nav-link text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition-colors relative pb-1 ${
+                currentPage === 'weekly-notes' ? 'active text-gray-900 dark:text-gray-100' : 'text-gray-600 dark:text-gray-400'
+              }`}
+            >
+              Weekly Notes
             </a>
             <a 
               href="/articles" 
@@ -85,7 +113,7 @@ const currentPage = pathname === '/' ? 'home' :
     
     <footer class="border-t border-gray-200 dark:border-slate-700 py-8 mt-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm transition-colors duration-200">
       <div class="max-w-6xl mx-auto px-6 text-center text-gray-600 dark:text-gray-400">
-        <p>&copy; 2024 Personal Website. Built with Astro and Tailwind CSS.</p>
+        <p>&copy; 2026 Personal Website.</p>
       </div>
     </footer>
   </body>
@@ -124,17 +152,14 @@ const currentPage = pathname === '/' ? 'home' :
     const moonIcon = document.getElementById('moon-icon');
     const html = document.documentElement;
     
-    // Check for saved theme preference or default to dark
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    html.setAttribute('data-theme', savedTheme);
+    // Check current theme (set by inline script in head)
+    const isDark = html.classList.contains('dark');
     
     // Update icon visibility
-    if (savedTheme === 'dark') {
-      html.classList.add('dark');
+    if (isDark) {
       sunIcon?.classList.remove('hidden');
       moonIcon?.classList.add('hidden');
     } else {
-      html.classList.remove('dark');
       sunIcon?.classList.add('hidden');
       moonIcon?.classList.remove('hidden');
     }

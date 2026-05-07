@@ -1,4 +1,5 @@
 // @ts-check
+// Triggering reload for Weekly Notes collection
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
